@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import BreadCrumb from '../components/OceanBreadCrumb';
-import Content from '../components/OceanContent';
+import BreadCrumb from './OceanBreadCrumb';
+import Content from './OceanContent';
 class DefaultContent extends Component {
     constructor(props) {
         super(props);

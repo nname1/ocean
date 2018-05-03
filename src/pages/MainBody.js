@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Layout} from 'antd';
 import Sider from '../components/OceanSider';
-import MainContent from '../pages/MainContent';
+import MainContent from '../components/MainContent';
 class MainBody extends Component {
     constructor(props) {
         super(props);

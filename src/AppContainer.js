@@ -3,7 +3,7 @@ import './App.css';
 import Header from './components/OceanHeader';
 import { Route,Redirect } from 'react-router-dom'
 import MainBody from './pages/MainBody';
-import HomePage from './pages/HomePage'
+import IndexPage from './pages/IndexPage'
 import { Layout } from 'antd';
 //import store from './store/store'
 //import {Provider} from 'react-redux';
@@ -14,7 +14,7 @@ class AppContainer extends Component {
             <Layout>
                 <Header/>
                 <Layout>
-                    <Route path="/" exact component={HomePage}/>
+                    <Route path="/" exact component={IndexPage}/>
                     <Route path="/:type" exact component={MainBody}/>
                     <Route path="/:type/:subnav" exact component={MainBody}/>
                     <Route path="/:type/:subnav/:option" exact component={MainBody}/>

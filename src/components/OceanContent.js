@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
+import Flow from "./Flow";
 const { Content } = Layout;
-const util=require('util');
+let items;
 function firstUpperCase(str){
     return str.replace(/\b(\w)(\w*)/g, function($0, $1, $2) {
         return $1.toUpperCase() + $2.toLowerCase();
@@ -19,14 +20,15 @@ class OceanContent extends Component{
         super(props);
     }
     render(){
-        return(/*<Content style={{ background: '#fff', padding: 24, margin: 0 }}>
+        return(<Content style={{ background: '#fff', padding: 24, margin: 0 }}>
             {
+
                 getTypes(this.props.url).map((item,index)=>{
-                    return <p>{firstUpperCase(item)}</p>
+                    return firstUpperCase(item)+" " ;
                 })
             }
-        </Content>*/
-        <div>{util.inspect(this.props,{depth:5})}</div>)
+            <Flow/>
+        </Content>)
     }
 }
 

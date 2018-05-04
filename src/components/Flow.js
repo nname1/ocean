@@ -1,17 +1,35 @@
-import { Steps, Icon } from 'antd';
-import React, { Component } from 'react';
-const Step = Steps.Step;
+import React, {Component} from 'react';
+import OceanSteps from "./OceanSteps";
+import StepContent from "./StepConent";
+import * as action from '../reducer/action';
+import { connect } from 'react-redux';
 
-class Flow extends Component{
+function mapStateToProps(state) {
+    return ({
+        statuses:{
+            step1Status:state.step1Status,
+            step2Status:state.step2Status,
+            step3Status:state.step3Status,
+            step4Status:state.step4Status
+        }
+    })
+}
 
-    render(){
-        return(<Steps>
-            <Step status="process" title="Login" />
-            <Step status="wait" title="Verification"  />
-            <Step status="wait" title="Pay"/>
-            <Step status="wait" title="Done"/>
-        </Steps>);
+function mapDispatchToProps(dispatch,ownProps) {
+    return ({
+        actions:{
+            moveToStep1:()=>dispatch(action.gotoStep1),
+            moveToStep2:()=>dispatch(action.gotoStep2),
+            moveToStep3:()=>dispatch(action.gotoStep3),
+            moveToStep4:()=>dispatch(action.gotoStep4)
+        }
+    })
+}
+class Flow extends Component {
+
+    render() {
+        return (<div><OceanSteps statuses={this.props.statuses}/><br/><StepContent status={this.props.statuses} actions={this.props.actions}/></div>);
     }
 }
 
-export default Flow;
+export default connect(mapStateToProps, mapDispatchToProps)(Flow);

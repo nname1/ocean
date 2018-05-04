@@ -5,8 +5,7 @@ import { Route,Redirect } from 'react-router-dom'
 import MainBody from './pages/MainBody';
 import IndexPage from './pages/IndexPage'
 import { Layout } from 'antd';
-//import store from './store/store'
-//import {Provider} from 'react-redux';
+
 
 class AppContainer extends Component {
     render() {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Sider from '../components/OceanSider';
 import { Layout } from 'antd';
 const { Content } = Layout;
 

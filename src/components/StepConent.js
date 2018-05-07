@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Button, Icon, Input, List, Avatar,Table,Divider} from 'antd';
-import { connect } from 'react-redux';
 import Step1RightButton from './StepButtons/Step1RightButton';
 import Step2RightButton from './StepButtons/Step2RightButton';
 import Step3RightButton from './StepButtons/Step3RightButton';
 import Step2LeftButton from './StepButtons/Step2LeftButton';
 import Step3LeftButton from './StepButtons/Step3LeftButton';
 import Step4LeftButton from './StepButtons/Step4LeftButton';
+import '../css/steps.css'
 const util = require('util');
 const ButtonGroup = Button.Group;
 const Search = Input.Search;
@@ -78,8 +78,8 @@ class StepContent extends Component {
     step1Content() {
         return (
             <div>
-                <Search placeholder="input search text" enterButton="Search" size="large"/><br/>
-                <div><ButtonGroup>
+                <Search placeholder="input search text" enterButton="Search" size="large"/><br/><br/><br/>
+                <div class="divcss5-right"><ButtonGroup>
                     <Step1RightButton onClickFunction={this.props.actions.moveToStep2}/>
                 </ButtonGroup></div></div>)
     }
@@ -97,23 +97,23 @@ class StepContent extends Component {
                     />
                 </List.Item>
             )}
-        /><br/><ButtonGroup>
+        /><br/><br/><br/><div class="divcss5-right"><ButtonGroup>
             <Step2LeftButton onClickFunction={this.props.actions.moveToStep1}/>
             <Step2RightButton onClickFunction={this.props.actions.moveToStep3}/>
-        </ButtonGroup></div>)
+        </ButtonGroup></div></div>)
     }
 
     step3Content() {
-        return (<div><Table columns={columns} dataSource={table_data} /><br/><ButtonGroup>
+        return (<div><Table columns={columns} dataSource={table_data} /><br/><br/><br/><br/><div class="divcss5-right"><ButtonGroup>
             <Step3LeftButton onClickFunction={this.props.actions.moveToStep2}/>
             <Step3RightButton onClickFunction={this.props.actions.moveToStep4}/>
-        </ButtonGroup></div>)
+        </ButtonGroup></div></div>)
     }
 
     step4Content() {
-        return (<div><Icon type="smile-o" /><br/><ButtonGroup>
+        return (<div><Icon type="smile-o" /><br/><br/><br/><br/><div class="divcss5-right"><ButtonGroup>
             <Step4LeftButton onClickFunction={this.props.actions.moveToStep3}/>
-        </ButtonGroup></div>)
+        </ButtonGroup></div></div>)
     }
 
     getStepContent(){

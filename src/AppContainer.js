@@ -1,24 +1,27 @@
 import React, {Component} from 'react';
 import './App.css';
 import Header from './components/OceanHeader';
-import { Route,Redirect } from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom';
 import MainBody from './pages/MainBody';
-import IndexPage from './pages/IndexPage'
-import { Layout } from 'antd';
-
+import IndexPage from './pages/IndexPage';
+import {Layout} from 'antd';
+import Login from './components/Login';
 
 class AppContainer extends Component {
     render() {
         return (
-            <Layout>
-                <Header/>
+            <Switch>
+                <Route path="/login" exact component={Login}/>
                 <Layout>
-                    <Route path="/" exact component={IndexPage}/>
-                    <Route path="/:type" exact component={MainBody}/>
-                    <Route path="/:type/:subnav" exact component={MainBody}/>
-                    <Route path="/:type/:subnav/:option" exact component={MainBody}/>
+                    <Header/>
+                    <Layout>
+                        <Route path="/" exact component={IndexPage}/>
+                        <Route path="/:type" exact component={MainBody}/>
+                        <Route path="/:type/:subnav" exact component={MainBody}/>
+                        <Route path="/:type/:subnav/:option" exact component={MainBody}/>
+                    </Layout>
                 </Layout>
-            </Layout>
+            </Switch>
         );
     }
 }

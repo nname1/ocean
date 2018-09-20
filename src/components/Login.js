@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import {Form, Icon, Input, Button, Checkbox,Layout} from 'antd';
+import {Button, Checkbox, Form, Icon, Input, Layout} from 'antd';
 import '../css/login.css';
+import httpUtil from '../http/httpUtil';
+import {withRouter,Redirect} from 'react-router-dom';
+import PropTypes from 'prop-types';
 const FormItem = Form.Item;
 const {Content} = Layout;
 
@@ -12,13 +15,19 @@ class LoginForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         const {validateFields} = this.props.form;
-        validateFields((err, values) => {
+        validateFields(async(err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                window.sessionStorage.removeItem("userId");
-                window.sessionStorage.setItem("userId","100000002");
-                console.log(this.props.url);
-                window.location.href=this.props.url;
+                let userInfo={username:values.userName,password:values.password};
+                let result = await httpUtil.login(userInfo);
+                if(result=="200"){
+                    this.props.setLoggedInUser(values.userName);
+                    const {history,url} = this.props;
+                    console.log("url is "+url);
+                    setTimeout(() => {
+                        history.replace(url);
+                    }, 1000)
+                }
             }
         });
     }
@@ -68,4 +77,12 @@ class LoginForm extends Component {
 }
 
 const Login = Form.create()(LoginForm);
-export default Login;
+export default withRouter(Login);
+
+/*
+function mapDispatchToProps(dispatch,ownProps) {
+    return ({
+        setLoggedInUser:(username)=>dispatch({type:"loggedIn",text:username})
+    })
+}
+export default connect(null, mapDispatchToProps)(Login);*/

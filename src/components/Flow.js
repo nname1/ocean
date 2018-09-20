@@ -3,14 +3,15 @@ import OceanSteps from "./OceanSteps";
 import StepContent from "./StepConent";
 import * as action from '../reducer/action';
 import { connect } from 'react-redux';
-
+const util = require('util');
 function mapStateToProps(state) {
+    console.log("Flow state is "+util.inspect(state,{depth:4}));
     return ({
         statuses:{
-            step1Status:state.step1Status,
-            step2Status:state.step2Status,
-            step3Status:state.step3Status,
-            step4Status:state.step4Status
+            step1Status:state.changeStep.step1Status,
+            step2Status:state.changeStep.step2Status,
+            step3Status:state.changeStep.step3Status,
+            step4Status:state.changeStep.step4Status
         }
     })
 }

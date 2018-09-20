@@ -1,0 +1,10 @@
+.userInfo {
+    font-size: large;
+    padding:20px;
+    color: aliceblue;
+    float: right;
+}
+
+.userInfoLink {
+    float: right;
+}

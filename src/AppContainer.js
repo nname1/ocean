@@ -8,12 +8,15 @@ import {Layout} from 'antd';
 import Login from './components/Login';
 
 class AppContainer extends Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
         return (
             <Switch>
-                <Route path="/login" exact component={Login}/>
+                <Route path="/login"  exact component={Login}/>
                 <Layout>
-                    <Header/>
+                    <Header loggedInUser={this.props.loggedInUser}/>
                     <Layout>
                         <Route path="/" exact component={IndexPage}/>
                         <Route path="/:type" exact component={MainBody}/>

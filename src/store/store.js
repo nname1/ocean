@@ -1,6 +1,6 @@
 import {createStore} from 'redux';
-import {changeStep} from '../reducer/reducer';
+import reducer from '../reducer/reducer';
 
-let store = createStore(changeStep);
-
+let store = createStore(reducer);
+console.log(store.getState());
 export default store;

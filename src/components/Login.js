@@ -25,7 +25,7 @@ class LoginForm extends Component {
                     const {history,url} = this.props;
                     console.log("url is "+url);
                     setTimeout(() => {
-                        history.replace(url);
+                        history.push(url);
                     }, 1000)
                 }
             }

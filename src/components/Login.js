@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Checkbox, Form, Icon, Input, Layout} from 'antd';
+import {Button, Checkbox, Form, Icon, Input, Layout,Alert} from 'antd';
 import '../css/login.css';
 import httpUtil from '../http/httpUtil';
 import {withRouter,Redirect} from 'react-router-dom';
@@ -10,6 +10,10 @@ const {Content} = Layout;
 class LoginForm extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            login_failed_display:'none'
+        }
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit = (e) => {
@@ -20,13 +24,17 @@ class LoginForm extends Component {
                 console.log('Received values of form: ', values);
                 let userInfo={username:values.userName,password:values.password};
                 let result = await httpUtil.login(userInfo);
-                if(result=="200"){
-                    this.props.setLoggedInUser(values.userName);
-                    const {history,url} = this.props;
-                    console.log("url is "+url);
+                if(result.status=="200") {
+                    this.props.setLoggedInUser(result.data);
+                    const {history, url} = this.props;
+                    console.log("url is " + url);
                     setTimeout(() => {
                         history.push(url);
                     }, 1000)
+                }else{
+                    this.setState({
+                        login_failed_display:'inline-block'
+                    });
                 }
             }
         });
@@ -55,6 +63,7 @@ class LoginForm extends Component {
                                        placeholder="Password"/>
                             )}
                         </FormItem>
+                        <Alert style={{display:this.state.login_failed_display}} message="username or password is incorrect" type="error" showIcon />
                         <FormItem>
                             {getFieldDecorator('remember', {
                                 valuePropName: 'checked',

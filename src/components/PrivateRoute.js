@@ -77,13 +77,14 @@ class PrivateRoute extends Component {
 function mapStateToProps(state) {
     console.log("PrivateRoute state is "+util.inspect(state,{depth:4}));
     return ({
-        loggedInUser:state.user.loggedInUser
+        loggedInUser:state.user.loggedInUser,
+        userToken:state.user.userToken
     })
 }
 
 function mapDispatchToProps(dispatch,ownProps) {
     return ({
-            setLoggedInUser:(username)=>dispatch({type:"loggedIn",text:username})
+            setLoggedInUser:(userToken)=>dispatch({type:"loggedIn",text:userToken})
     })
 }
 

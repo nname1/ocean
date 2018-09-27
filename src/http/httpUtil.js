@@ -7,12 +7,26 @@ const base_axios = axios.create({
         'Content-Type':'application/json',
         'Access-Control-Allow-Origin':'no-cors',
     },
-    timeout: 1000
+    timeout: 10000
 });
 
 const postPromise = (url,postData=null) => new Promise((resolve,reject)=>{
     base_axios.post(url,postData).then(res=>{resolve(res)}).catch(err=>reject(err));
 });
+
+const getPromise = (token,url) => {
+    const get_axios = axios.create({
+    baseURL:'http://localhost:8080',
+    headers: {
+        'Content-Type':'application/json',
+        'Authorization':token,
+    },
+    timeout: 10000
+    });
+    return new Promise((resolve,reject)=>{
+        get_axios.get(url).then(res=>{resolve(res)}).catch(err=>reject(err));
+    })
+}
 
 const isAuthorized= async ()=>{
     try{
@@ -26,11 +40,20 @@ const isAuthorized= async ()=>{
 const login = async (userInfo)=>{
     try{
         let res = await postPromise("/login",userInfo);
-        return res.status;
+        return res;
     }catch (e) {
-        console.error(e);
-        throw new Error(e);
+        //console.log("login response is "+util.inspect(e,{depth:5}));
+        return e.response;
     }
 }
 
-export default {isAuthorized,login};
+const getSearchData = async (token,value)=>{
+    try{
+        let res = await getPromise(token,"/order/"+value);
+        return res.data;
+    }catch (e) {
+        console.error(e);
+    }
+}
+
+export default {isAuthorized,login,getSearchData};

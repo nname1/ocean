@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
-import {Button, Icon, Input, List, Avatar,Table,Divider} from 'antd';
+import {Button, Icon, Input, List, Avatar,Table,Divider,Alert} from 'antd';
 import Step1RightButton from './StepButtons/Step1RightButton';
 import Step2RightButton from './StepButtons/Step2RightButton';
 import Step3RightButton from './StepButtons/Step3RightButton';
 import Step2LeftButton from './StepButtons/Step2LeftButton';
 import Step3LeftButton from './StepButtons/Step3LeftButton';
 import Step4LeftButton from './StepButtons/Step4LeftButton';
-import '../css/steps.css'
+import { connect } from 'react-redux';
+import '../css/steps.css';
+import httpUtil from '../http/httpUtil';
 const util = require('util');
 const ButtonGroup = Button.Group;
 const Search = Input.Search;
@@ -24,6 +26,15 @@ const data = [
         title: 'Ant Design Title 4',
     },
 ];
+const search_columns = [{
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name'
+}, {
+    title: 'Value',
+    dataIndex: 'value',
+    key: 'value'
+}];
 const columns = [{
     title: 'Name',
     dataIndex: 'name',
@@ -72,15 +83,28 @@ const table_data = [{
 class StepContent extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            searchedData:[{key:'',name:'',value:''}],
+            table_display:'none',
+            error_display:'none',
+            error_message:""
+        };
+        this.getSearchData = this.getSearchData.bind(this);
     }
 
     step1Content() {
         return (
             <div>
-                <Search placeholder="input search text" enterButton="Search" size="large"/><br/><br/><br/>
+                <Search placeholder="input search text" enterButton="Search" size="large" onSearch={value=> this.getSearchData(value)}/><br/><br/><br/>
+                <Table style={{display:this.state.table_display}} columns={search_columns} dataSource={this.state.searchedData} />
+                <Alert style={{display:this.state.error_display}} message={this.state.error_message} type="error" showIcon></Alert>
                 <div class="divcss5-right"><ButtonGroup>
                     <Step1RightButton onClickFunction={this.props.actions.moveToStep2}/>
                 </ButtonGroup></div></div>)
+    }
+
+    getSearchData(value){
+        httpUtil.getSearchData(this.props.userToken,value).then(value=>this.setState({searchedData:[{key:'1',name:'Name',value:value}],table_display:'block',error_display:'none',error_message:''})).catch(err=>{console.log(err);this.setState({searchedData:[{key:'',name:'',value:''}],table_display:'none',error_display:'inline-block',error_message:err})});
     }
 
     step2Content() {
@@ -135,5 +159,10 @@ class StepContent extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    return ({
+        userToken:state.user.userToken
+    })
+}
 
-export default StepContent;
+export default connect(mapStateToProps, null)(StepContent);

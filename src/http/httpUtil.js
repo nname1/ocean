@@ -50,9 +50,11 @@ const login = async (userInfo)=>{
 const getSearchData = async (token,value)=>{
     try{
         let res = await getPromise(token,"/order/"+value);
+        console.log("search response is "+util.inspect(res,{depth:5}));
         return res.data;
     }catch (e) {
-        console.error(e);
+        console.error("e is "+util.inspect(e,{depth:5}));
+        return e.response.data;
     }
 }
 

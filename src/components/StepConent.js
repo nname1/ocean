@@ -97,14 +97,21 @@ class StepContent extends Component {
             <div>
                 <Search placeholder="input search text" enterButton="Search" size="large" onSearch={value=> this.getSearchData(value)}/><br/><br/><br/>
                 <Table style={{display:this.state.table_display}} columns={search_columns} dataSource={this.state.searchedData} />
-                <Alert style={{display:this.state.error_display}} message={this.state.error_message} type="error" showIcon></Alert>
+                <Alert style={{display:this.state.error_display,left:'30%',width:'40%'}} message={this.state.error_message} type="error" showIcon></Alert>
                 <div class="divcss5-right"><ButtonGroup>
                     <Step1RightButton onClickFunction={this.props.actions.moveToStep2}/>
                 </ButtonGroup></div></div>)
     }
 
     getSearchData(value){
-        httpUtil.getSearchData(this.props.userToken,value).then(value=>this.setState({searchedData:[{key:'1',name:'Name',value:value}],table_display:'block',error_display:'none',error_message:''})).catch(err=>{console.log(err);this.setState({searchedData:[{key:'',name:'',value:''}],table_display:'none',error_display:'inline-block',error_message:err})});
+        httpUtil.getSearchData(this.props.userToken,value).then(value=>{
+            if(value.error){
+                this.setState({searchedData:[{key:'',name:'',value:''}],table_display:'none',error_display:'block',error_message:value.error+":"+value.error_description})
+            } else{
+                console.log("value is "+util.inspect(value,{depth:5}));
+                this.setState({searchedData:[{key:'1',name:'Name',value:value}],table_display:'block',error_display:'none',error_message:''})
+            }
+        }).catch(err=>{console.log("err is "+err);this.setState({searchedData:[{key:'',name:'',value:''}],table_display:'none',error_display:'block',error_message:err})});
     }
 
     step2Content() {

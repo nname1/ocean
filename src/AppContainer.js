@@ -5,7 +5,6 @@ import {Route, Switch} from 'react-router-dom';
 import MainBody from './pages/MainBody';
 import IndexPage from './pages/IndexPage';
 import {Layout} from 'antd';
-import Login from './components/Login';
 
 class AppContainer extends Component {
     constructor(props) {
@@ -14,7 +13,6 @@ class AppContainer extends Component {
     render() {
         return (
             <Switch>
-                <Route path="/login"  exact component={Login}/>
                 <Layout>
                     <Header loggedInUser={this.props.loggedInUser}/>
                     <Layout>

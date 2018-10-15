@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
-import Login from './Login';
 import AppContainer from '../AppContainer';
 import httpUtil from '../http/httpUtil';
 import { connect } from 'react-redux';
@@ -51,13 +50,17 @@ class PrivateRoute extends Component {
     }
     validateToken() {
         let it=this;
-        httpUtil.isAuthorized().then((res) => {
-            if(res){
+        let redirect_url = window.location.href.split('?state=')[0];
+        let state = window.location.href.split('?state=')[1];
+        httpUtil.isAuthorized(state).then((res) => {
+            console.log(JSON.stringify(res));
+            if(res.data){
                 it.setState({isAuthenticated:true});
+                this.props.setLoggedInUser({userName:"kelvin",
+                    Authorization:res.headers['authorization']});
             }
             if (!it.state.isAuthenticated) {
-                const {history} = it.props;
-                history.push("/login");
+                window.location.assign('http://localhost:3001/login?redirect_url='+redirect_url+'?state='+res.headers['state']);
             }
         }).catch((e) => {
             console.log(e)
@@ -66,12 +69,13 @@ class PrivateRoute extends Component {
     }
 
     render() {
-        console.log(this.state.isAuthenticated);
+        /*console.log(this.state.isAuthenticated);
         return this.state.isAuthenticated ?
-            (<AppContainer loggedInUser={this.props.loggedInUser}/>) : (<Login url={this.state.url} setLoggedInUser={this.props.setLoggedInUser}/>)
+            (<AppContainer loggedInUser={this.props.loggedInUser}/>) : (<Login url={this.state.url} setLoggedInUser={this.props.setLoggedInUser}/>);*/
+        return (<AppContainer loggedInUser={this.props.loggedInUser}/>);
     }
 }
-
+//window.location.assign('http://localhost:3000/login?redirect_to='+window.location.href)
 //export default withRouter(PrivateRoute);
 
 function mapStateToProps(state) {

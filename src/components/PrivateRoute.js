@@ -56,7 +56,7 @@ class PrivateRoute extends Component {
             console.log(JSON.stringify(res));
             if(res.data){
                 it.setState({isAuthenticated:true});
-                this.props.setLoggedInUser({userName:"kelvin",
+                this.props.setLoggedInUser({userName:res.headers['username'],
                     Authorization:res.headers['authorization']});
             }
             if (!it.state.isAuthenticated) {

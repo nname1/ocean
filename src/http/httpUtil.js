@@ -15,7 +15,7 @@ const postPromise = (url,postData=null) => new Promise((resolve,reject)=>{
     base_axios.post(url,postData).then(res=>{resolve(res)}).catch(err=>reject(err));
 });
 
-const getPromiseWoToken = (url,state=null) => new Promise((resolve,reject)=>{
+const getPromiseWoToken = (url,state='') => new Promise((resolve,reject)=>{
     const base_axios = axios.create({
         baseURL:'http://localhost:8080',
         headers: {
